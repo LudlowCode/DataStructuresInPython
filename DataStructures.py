@@ -1,5 +1,9 @@
 
 
+from _typeshed import Self
+from typing import Dict, Set
+
+
 class Stack:
     def __init__(self, max_size):
         self.max_size = max_size
@@ -60,26 +64,50 @@ class Queue:
         self.items[counter] = None
         self.front_index -= 1
         self.next_free_location -= 1
-        return True
+        return True    
 
 class CircularQueue(Queue):
     def __init__(self, max_size):
         super().__init__(max_size)
     def enqueue(self, item):
+        """Adds an item to the queue, or returns None"""
+        # If something in next slot, can't do
         if self.items[self.next_free_location] != None:
             return False
         else:
             self.items[self.next_free_location] = item
-            self.next_free_location = self.next_free_location + 1
-            # Make circular by wrapping around with mod
-            self.next_free_location = self.next_free_location % self.max_size
+            # TODO update next free location
+
+            # TODO Make circular by wrapping around with mod
 
     def dequeue(self):
         return_item = self.items[self.front_index]
         self.items[self.front_index] = None
+        # TODO update front index
+
+        # TODO make circular
         self.front_index += 1
         self.front_index = self.front_index % self.max_size
         return return_item
+
+
+class Node:
+    def __init__(self, data : any) -> None:
+        self.data = data
+        self.children : Dict[Node, float] = {}
+    def breadth_first_traversal(self) -> Set['Node']:
+        if self.children == {}:
+            return {}
+
+        
+
+class Tree:
+    def __init__(self, root: Node)-> None:
+        self.root = root
+
+    def breadth_first_traversal(self) -> Set[Node]:
+        return self.root.breadth_first_traversal()
+        
 
 def test_stack():
     ints = Stack(5)
